@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Finance Hub - AI Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-shield-lock-fill me-2"></i>Secure Finance Hub
+            </a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero-section">
+            <h1 class="hero-title">Predict the Future <br>with Machine Learning</h1>
+            <p class="lead text-muted mx-auto" style="max-width: 600px;">
+                Make data-driven decisions for your real estate investments and financial planning using our advanced predictive models.
+            </p>
+        </section>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="card h-100 p-4">
+                    <div class="card-body text-center">
+                        <div class="mb-4">
+                            <i class="bi bi-house-door text-primary" style="font-size: 4rem;"></i>
+                        </div>
+                        <h3 class="card-title">House Price Prediction</h3>
+                        <p class="card-text text-muted mb-4">
+                            Estimate property values based on area, condition, grade, and location. Ideal for buyers and sellers.
+                        </p>
+                        <a href="/house" class="btn btn-primary w-100 py-3 mt-auto">
+                            Predict Price <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 p-4">
+                    <div class="card-body text-center">
+                        <div class="mb-4">
+                            <i class="bi bi-wallet2 text-success" style="font-size: 4rem;"></i>
+                        </div>
+                        <h3 class="card-title">Loan Eligibility Check</h3>
+                        <p class="card-text text-muted mb-4">
+                            Quickly assess your loan approval chances based on income, credit history, and personal details.
+                        </p>
+                        <a href="/loan" class="btn btn-primary w-100 py-3 mt-auto">
+                            Check Eligibility <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Secure Finance Hub. Built with Flask & Machine Learning.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

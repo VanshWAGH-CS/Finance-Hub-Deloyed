@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Open Account | TrustBridge Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Create Account</h2>
+                <p class="text-muted">Join Thousands of Smart Investors</p>
+            </div>
+
+            <form method="POST">
+                <label class="small fw-bold text-muted mb-2">FULL NAME</label>
+                <input type="text" name="full_name" class="form-input-bank" placeholder="John Doe" required>
+
+                <label class="small fw-bold text-muted mb-2">USERNAME</label>
+                <input type="text" name="username" class="form-input-bank" placeholder="johndoe123" required>
+
+                <label class="small fw-bold text-muted mb-2">EMAIL ADDRESS</label>
+                <input type="email" name="email" class="form-input-bank" placeholder="john@example.com" required>
+
+                <label class="small fw-bold text-muted mb-2">PASSWORD</label>
+                <input type="password" name="password" class="form-input-bank" placeholder="••••••••" required>
+
+                <button type="submit" class="btn btn-bank w-100 py-3 mt-3">Register Now</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="small text-muted">Already a member? <a href="/login"
+                        class="text-decoration-none fw-bold">Login here</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

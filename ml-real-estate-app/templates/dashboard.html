@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | TrustBridge Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="bg-light">
+    <div class="sidebar">
+        <div class="navbar-brand text-dark mb-5">
+            <i class="bi bi-bank2 text-primary"></i> TrustBridge
+        </div>
+
+        <nav>
+            <a href="/dashboard" class="nav-link-bank active">
+                <i class="bi bi-speedometer2"></i> Overview
+            </a>
+            <a href="/calculator" class="nav-link-bank">
+                <i class="bi bi-calculator"></i> EMI Calculator
+            </a>
+            <a href="/loan" class="nav-link-bank">
+                <i class="bi bi-cash-stack"></i> Loan Checker
+            </a>
+            <a href="/house" class="nav-link-bank">
+                <i class="bi bi-house-heart"></i> House Valuator
+            </a>
+            <hr class="my-4 text-muted">
+            <a href="/logout" class="nav-link-bank text-danger">
+                <i class="bi bi-box-arrow-left"></i> Logout
+            </a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <!-- Toast Container -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="toast show align-items-center text-white bg-{{ 'primary' if category == 'success' else 'danger' if category == 'danger' else 'info' }} border-0"
+                role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ message }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <header class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h1 class="fw-bold mb-1">Welcome back, {{ name }}</h1>
+                <p class="text-muted">Here's what's happening with your assets today.</p>
+            </div>
+            <div class="d-flex gap-3 align-items-center">
+                <div class="text-end">
+                    <p class="mb-0 fw-bold">Active Member</p>
+                    <p class="mb-0 small text-success">Verified Account</p>
+                </div>
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                    style="width: 50px; height: 50px;">
+                    <i class="bi bi-person-fill fs-4"></i>
+                </div>
+            </div>
+        </header>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted fw-bold small">LOAN CAPACITY</span>
+                        <i class="bi bi-info-circle text-muted"></i>
+                    </div>
+                    <h2 class="fw-bold">$450,000</h2>
+                    <p class="text-success small mb-0"><i class="bi bi-graph-up"></i> +2.4% from last month</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted fw-bold small">MARKET VALUE</span>
+                        <i class="bi bi-info-circle text-muted"></i>
+                    </div>
+                    <h2 class="fw-bold">$1.2M</h2>
+                    <p class="text-primary small mb-0">Global Portfolio Area</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted fw-bold small">CREDIT TRUST</span>
+                        <i class="bi bi-shield-check text-success"></i>
+                    </div>
+                    <h2 class="fw-bold">Excellent</h2>
+                    <div class="progress mt-2" style="height: 6px;">
+                        <div class="progress-bar bg-success" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm p-4 rounded-4">
+                    <h4 class="fw-bold mb-4">Recent Financial Reports</h4>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Report ID</th>
+                                    <th>Type</th>
+                                    <th>Result</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in history %}
+                                <tr>
+                                    <td><span class="badge bg-light text-dark fw-bold">#TB-{{ "%04d"|format(item.id)
+                                            }}</span></td>
+                                    <td>{{ item.type.title() }}</td>
+                                    <td><span
+                                            class="fw-bold {{ 'text-success' if 'Approved' in item.result_text or '$' in item.result_text else 'text-danger' }}">{{
+                                            item.result_text }}</span></td>
+                                    <td class="small text-muted">{{ item.timestamp.strftime('%b %d, %H:%M') }}</td>
+                                    <td>
+                                        <a href="/download-report/{{ item.id }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-download"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">No reports generated yet.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm p-4 rounded-4 bg-brand-primary text-white"
+                    style="background: var(--brand-primary);">
+                    <h5 class="fw-bold mb-3">System Intelligence</h5>
+                    <p class="small opacity-75 mb-4">Operational status of our neural prediction engines.</p>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Regression v1.4</span>
+                        <span class="badge bg-success">Active</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-4">
+                        <span>Classifier v2.1</span>
+                        <span class="badge bg-success">Active</span>
+                    </div>
+                    <button class="btn btn-outline-light btn-sm w-100">Review Model Specs</button>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="fw-bold mb-4">Financial Tools</h3>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm p-4 rounded-4">
+                    <div class="mb-4">
+                        <div class="bg-light-primary text-primary rounded-4 d-inline-flex p-3">
+                            <i class="bi bi-calculator fs-2"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold">Loan Eligibility Engine</h4>
+                    <p class="text-muted">Use our high-precision classification models to check if you qualify for a
+                        specific loan amount.</p>
+                    <a href="/loan" class="btn btn-bank mt-3">Start Assessment</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm p-4 rounded-4">
+                    <div class="mb-4">
+                        <div class="bg-light-success text-success rounded-4 d-inline-flex p-3">
+                            <i class="bi bi-building fs-2"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold">Market Valuator</h4>
+                    <p class="text-muted">Input house parameters to get a real-time market price estimate powered by
+                        linear regression.</p>
+                    <a href="/house" class="btn btn-bank mt-3">Value My House</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

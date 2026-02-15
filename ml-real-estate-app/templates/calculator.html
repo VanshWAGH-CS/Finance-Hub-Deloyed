@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>EMI & Affordability | TrustBridge Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="bg-light">
+    <div class="sidebar">
+        <div class="navbar-brand text-dark mb-5">
+            <i class="bi bi-bank2 text-primary"></i> TrustBridge
+        </div>
+        <nav>
+            <a href="/dashboard" class="nav-link-bank">
+                <i class="bi bi-speedometer2"></i> Overview
+            </a>
+            <a href="/calculator" class="nav-link-bank active">
+                <i class="bi bi-calculator"></i> EMI Calculator
+            </a>
+            <a href="/loan" class="nav-link-bank">
+                <i class="bi bi-cash-stack"></i> Loan Checker
+            </a>
+            <a href="/house" class="nav-link-bank">
+                <i class="bi bi-house-heart"></i> House Valuator
+            </a>
+            <hr class="my-4 text-muted">
+            <a href="/logout" class="nav-link-bank text-danger">
+                <i class="bi bi-box-arrow-left"></i> Logout
+            </a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="mb-5">
+            <h1 class="fw-bold">Affordability Intelligence</h1>
+            <p class="text-muted">Calculate your maximum sustainable EMI and suggested loan ceiling.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-7">
+                <div class="card border-0 shadow-sm p-5 rounded-4">
+                    <form method="POST">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="small fw-bold text-muted mb-2">MONTHLY INCOME</label>
+                                <input type="number" name="income" class="form-input-bank" placeholder="e.g. 5000"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold text-muted mb-2">MONTHLY EXPENSES</label>
+                                <input type="number" name="expenses" class="form-input-bank" placeholder="e.g. 2000"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold text-muted mb-2">ANNUAL INTEREST RATE (%)</label>
+                                <input type="number" step="0.1" name="rate" class="form-input-bank"
+                                    placeholder="e.g. 7.5" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold text-muted mb-2">TENURE (YEARS)</label>
+                                <input type="number" name="tenure" class="form-input-bank" placeholder="e.g. 20"
+                                    required>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-bank w-100 py-3 mt-3">Calculate
+                                    Sustainability</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {% if result %}
+            <div class="col-md-5">
+                <div class="card border-0 shadow-sm p-5 rounded-4 bg-primary text-white h-100">
+                    <h4 class="fw-bold mb-4">Sustainability Report</h4>
+                    <div class="mb-5">
+                        <p class="small opacity-75 mb-1">MAX SUSTAINABLE EMI</p>
+                        <h1 class="fw-bold">{{ result.max_emi }}</h1>
+                    </div>
+                    <div class="mb-5">
+                        <p class="small opacity-75 mb-1">SUGGESTED LOAN CEILING</p>
+                        <h2 class="fw-bold">{{ result.suggested_loan }}</h2>
+                    </div>
+                    <div class="alert bg-white bg-opacity-10 border-0 text-white small p-3">
+                        <i class="bi bi-shield-check me-2"></i>
+                        Note: This assumes a conservative 45% debt-to-income ratio (DTI) for optimal financial health.
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>
